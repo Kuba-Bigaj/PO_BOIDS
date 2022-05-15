@@ -1,2 +1,3 @@
-Sample text file
-This is a change?!?!
+Authors : Kuba Bigaj, Paweł Cyganiuk
+
+This is an agent based simulation for an OOP clas. It models predation using boid agents.
