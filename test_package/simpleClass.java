@@ -1,7 +1,7 @@
 package test_package;
 
 public class simpleClass {
-    public static void main(String[] args) {
+    public static void write() {
         System.out.println("bagno");
     }
 }
