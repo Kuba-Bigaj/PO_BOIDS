@@ -2,11 +2,20 @@ package gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
+/**
+ * @author Kuba Bigaj
+ * @version 0.1
+ */
 public class GUI {
+    private ArrayList<GUIable> toDraw;
+    private int imageSize;
     private boolean isPaused;
+    private boolean isFullscreen;
 
-    static class PauseListener implements KeyListener {
+    @SuppressWarnings("all")
+    private class PauseListener implements KeyListener {
         public void keyTyped(KeyEvent k) {
 
         }
@@ -16,7 +25,8 @@ public class GUI {
         }
 
         public void keyReleased(KeyEvent k) {
-            
+
         }
     }
+
 }
