@@ -20,6 +20,7 @@ public class Simulation {
         Simulation s = new Simulation(60);
         GUI g = new GUI(s.entities, 600, false, s.isPaused);
         long start, stop;
+        s.entities.add(new Food(0.0, 0.0, 1.0, 0.0));
         try {
             while (true) {
                 if (s.isPaused) {
