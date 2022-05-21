@@ -21,7 +21,7 @@ public class GUI {
     @SuppressWarnings("all")
     private ArrayList<GUIable> toDraw = new ArrayList<>();
     private Boolean isPaused;
-
+        //TODO fix bug, where isPaused is passed as a value as opposed to a reference
     public GUI(ArrayList<Entity> toDraw, int imageSize, boolean isFullscreen, Boolean isPaused) {
         this.toDraw.addAll(toDraw);
         this.imageSize = imageSize;
