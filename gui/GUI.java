@@ -14,13 +14,13 @@ import java.util.ArrayList;
  * @version 0.1
  */
 public class GUI {
-    @SuppressWarnings("all")
-    private ArrayList<GUIable> toDraw = new ArrayList<>();
     private final int imageSize;
-    private Boolean isPaused;
     private final JFrame window = new JFrame();
     private final JLabel image;
     private final Graphics2D pen;
+    @SuppressWarnings("all")
+    private ArrayList<GUIable> toDraw = new ArrayList<>();
+    private Boolean isPaused;
 
     public GUI(ArrayList<Entity> toDraw, int imageSize, boolean isFullscreen, Boolean isPaused) {
         this.toDraw.addAll(toDraw);
@@ -44,6 +44,21 @@ public class GUI {
 
     }
 
+    public void pause() {
+        JOptionPane.showMessageDialog(window, "The simulation has been paused!");
+        isPaused = false;
+    }
+
+    public void add(GUIable object) {
+        toDraw.add(object);
+    }
+
+    public void update() {
+        pen.clearRect(0, 0, imageSize, imageSize);
+        toDraw.forEach((e) -> e.draw(pen));
+        image.repaint();
+    }
+
     private class PauseListener implements KeyListener {
         public void keyTyped(KeyEvent k) {
 
@@ -58,21 +73,6 @@ public class GUI {
         public void keyReleased(KeyEvent k) {
 
         }
-    }
-
-    public void pause() {
-        JOptionPane.showMessageDialog(window, "The simulation has been paused!");
-        isPaused = false;
-    }
-
-    public void add(GUIable object) {
-        toDraw.add(object);
-    }
-
-    public void update() {
-        pen.clearRect(0, 0, imageSize, imageSize);
-        toDraw.forEach((e) -> e.draw(pen));
-        image.repaint();
     }
 
 }
