@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
+ * This class is responsible for creating a window, drawing the contents of simulation and pausing it.
+ *
  * @author Kuba Bigaj
  * @version 0.5
  * This class is responsible for creating a window, drawing the contents of simulation and pausing it.
@@ -69,6 +71,9 @@ public class GUI {
         toDraw.add(object);
     }
 
+    /**
+     * Clears the canvas, redraws the objects and updates the display.
+     */
     public void update() {
         pen.clearRect(0, 0, imageSize, imageSize);
         toDraw.forEach((e) -> e.draw(pen));
