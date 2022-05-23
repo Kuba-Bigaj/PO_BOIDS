@@ -19,6 +19,7 @@ public abstract class Entity implements GUIable {
     }
 
     public void draw(Graphics2D pen) {
-
+        pen.setPaint(Color.RED);
+        pen.drawRoundRect(0, 0, 5, 5, 3, 3);
     }
 }
