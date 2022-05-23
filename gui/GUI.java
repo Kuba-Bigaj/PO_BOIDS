@@ -20,9 +20,10 @@ public class GUI {
     private final Graphics2D pen;
     @SuppressWarnings("all")
     private ArrayList<GUIable> toDraw = new ArrayList<>();
-    private Boolean isPaused;
-        //TODO fix bug, where isPaused is passed as a value as opposed to a reference
-    public GUI(ArrayList<Entity> toDraw, int imageSize, boolean isFullscreen, Boolean isPaused) {
+    @SuppressWarnings("all")
+    private final Boolean[] isPaused;
+
+    public GUI(ArrayList<Entity> toDraw, int imageSize, boolean isFullscreen, Boolean[] isPaused) {
         this.toDraw.addAll(toDraw);
         this.imageSize = imageSize;
         this.isPaused = isPaused;
@@ -46,7 +47,7 @@ public class GUI {
 
     public void pause() {
         JOptionPane.showMessageDialog(window, "The simulation has been paused!");
-        isPaused = false;
+        isPaused[0] = false;
     }
 
     public void add(GUIable object) {
@@ -66,7 +67,7 @@ public class GUI {
 
         public void keyPressed(KeyEvent k) {
             if (k.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                isPaused = true;
+                isPaused[0] = true;
             }
         }
 

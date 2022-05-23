@@ -12,9 +12,9 @@ import java.util.ArrayList;
  */
 @SuppressWarnings("ALL")
 public class Simulation {
-    private ArrayList<Entity> entities = new ArrayList<>();
     private final int frameDelay;
-    private Boolean isPaused = false;
+    private ArrayList<Entity> entities = new ArrayList<>();
+    private Boolean[] isPaused = {false};
 
     public Simulation(double frameRate) {
         double delay = frameRate / 60;
@@ -29,7 +29,7 @@ public class Simulation {
         s.entities.add(new Food(0.0, 0.0, 1.0, 0.0));
         try {
             while (true) {
-                if (s.isPaused) {
+                if (s.isPaused[0]) {
                     g.pause();
                 }
                 start = System.currentTimeMillis();
