@@ -12,17 +12,24 @@ import java.util.ArrayList;
 /**
  * @author Kuba Bigaj
  * @version 0.5
+ * This class is responsible for creating a window, drawing the contents of simulation and pausing it.
  */
 public class GUI {
     private final int imageSize;
     private final JFrame window = new JFrame();
     private final JLabel image;
     private final Graphics2D pen;
-    @SuppressWarnings("all")
-    private ArrayList<GUIable> toDraw = new ArrayList<>();
-    @SuppressWarnings("all")
-    private final Boolean[] isPaused;
+    private final ArrayList<GUIable> toDraw = new ArrayList<>();
+    private final Boolean[] isPaused; //Scuffed, but it works
 
+    /**
+     * Constructor designed to work with the Simulation class.
+     *
+     * @param toDraw       Initial list of entities to draw. Due to the implementation, changes in the list passed will not be reflected in the GUI class. See: {@link #add(GUIable) add} method.
+     * @param imageSize    Size of the image to draw in pixels.
+     * @param isFullscreen Whether the image should be fullscreen
+     * @param isPaused     Reference to a control variable inside implementing class. Should call the {@link #pause() pause} method upon turning true.
+     */
     public GUI(ArrayList<Entity> toDraw, int imageSize, boolean isFullscreen, Boolean[] isPaused) {
         this.toDraw.addAll(toDraw);
         this.imageSize = imageSize;
@@ -45,11 +52,19 @@ public class GUI {
 
     }
 
+    /**
+     * Method responsible for temporarily stopping the execution of the simulation.
+     */
     public void pause() {
         JOptionPane.showMessageDialog(window, "The simulation has been paused!");
         isPaused[0] = false;
     }
 
+    /**
+     * Method responsible for adding additional objects to draw.
+     *
+     * @param object Object to be added. Make sure it has a draw method implemented!
+     */
     public void add(GUIable object) {
         toDraw.add(object);
     }
