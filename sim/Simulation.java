@@ -4,6 +4,12 @@ import gui.GUI;
 
 import java.util.ArrayList;
 
+/**
+ * @author Kuba Bigaj
+ * @version 0.5
+ * <p>
+ * This is the main class of this project.
+ */
 @SuppressWarnings("ALL")
 public class Simulation {
     private ArrayList<Entity> entities = new ArrayList<>();
