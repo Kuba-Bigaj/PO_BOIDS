@@ -17,25 +17,42 @@ public class Simulation {
     private Boolean[] isPaused = {false};
     private GUI gui;
 
+    /**
+     * Constructor specyfying the framerate.
+     *
+     * @param frameRate Desired framerate in fps
+     */
     public Simulation(double frameRate) {
         double delay = frameRate / 60;
         delay *= 1000;
         this.frameDelay = (int) delay;
     }
 
-    public void guiInit() {
+    /**
+     * Default constructor
+     */
+    public Simulation() {
+        this(60);
+    }
+
+    private void guiInit() {
         this.gui = new GUI(this.entities, 600, false, this.isPaused);
     }
 
-    public void add(Entity e) {
+    void add(Entity e) {
         this.entities.add(e);
         this.gui.add(e);
     }
 
+    /**
+     * Main method of the project
+     *
+     * @param args [To be implemented]
+     */
     public static void main(String args[]) {
         Simulation s = new Simulation(60);
         long start, stop;
-
+        s.guiInit();
         try {
             while (true) {
                 if (s.isPaused[0]) {
