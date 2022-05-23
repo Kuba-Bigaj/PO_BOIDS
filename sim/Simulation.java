@@ -5,10 +5,10 @@ import gui.GUI;
 import java.util.ArrayList;
 
 /**
+ * This is the main class of this project.
+ *
  * @author Kuba Bigaj
  * @version 0.5
- * <p>
- * This is the main class of this project.
  */
 @SuppressWarnings("ALL")
 public class Simulation {
