@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 /**
  * @author Kuba Bigaj
- * @version 0.1
+ * @version 0.5
  */
 public class GUI {
     private final int imageSize;
