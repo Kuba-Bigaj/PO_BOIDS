@@ -15,6 +15,7 @@ public class Simulation {
     private final int frameDelay;
     private ArrayList<Entity> entities = new ArrayList<>();
     private Boolean[] isPaused = {false};
+    private GUI gui;
 
     public Simulation(double frameRate) {
         double delay = frameRate / 60;
@@ -22,18 +23,26 @@ public class Simulation {
         this.frameDelay = (int) delay;
     }
 
+    public void guiInit() {
+        this.gui = new GUI(this.entities, 600, false, this.isPaused);
+    }
+
+    public void add(Entity e) {
+        this.entities.add(e);
+        this.gui.add(e);
+    }
+
     public static void main(String args[]) {
         Simulation s = new Simulation(60);
-        GUI g = new GUI(s.entities, 600, false, s.isPaused);
         long start, stop;
-        s.entities.add(new Food(0.0, 0.0, 1.0, 0.0));
+
         try {
             while (true) {
                 if (s.isPaused[0]) {
-                    g.pause();
+                    s.gui.pause();
                 }
                 start = System.currentTimeMillis();
-                g.update();
+                s.gui.update();
                 stop = System.currentTimeMillis();
                 if (stop < start + s.frameDelay) {
                     Thread.sleep(s.frameDelay - stop + start);
