@@ -14,7 +14,6 @@ import java.util.ArrayList;
  *
  * @author Kuba Bigaj
  * @version 0.5
- * This class is responsible for creating a window, drawing the contents of simulation and pausing it.
  */
 public class GUI {
     private final int imageSize;
