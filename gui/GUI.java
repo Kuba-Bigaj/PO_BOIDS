@@ -1,11 +1,14 @@
 package gui;
 
 import sim.Entity;
+import sim.Scribe;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -21,7 +24,8 @@ public class GUI {
     private final JLabel image;
     private final Graphics2D pen;
     private final ArrayList<GUIable> toDraw = new ArrayList<>();
-    private final Boolean[] isPaused; //Scuffed, but it works
+    private final Boolean[] isPaused;
+    private final Scribe scribe;
 
     /**
      * Constructor designed to work with the Simulation class.
@@ -31,27 +35,35 @@ public class GUI {
      * @param isFullscreen Whether the image should be fullscreen
      * @param isPaused     Reference to a control variable inside implementing class. Should call the {@link #pause() pause} method upon turning true.
      */
-    public GUI(ArrayList<Entity> toDraw, int imageSize, boolean isFullscreen, Boolean[] isPaused) {
+    public GUI(ArrayList<Entity> toDraw, int imageSize, boolean isFullscreen, Boolean[] isPaused, Scribe scr) {
         this.toDraw.addAll(toDraw);
         this.imageSize = imageSize;
         this.isPaused = isPaused;
+        this.scribe = scr;
         BufferedImage i = new BufferedImage(imageSize, imageSize, BufferedImage.TYPE_INT_RGB);
         this.image = new JLabel(new ImageIcon(i));
         this.pen = i.createGraphics();
         pen.setPaint(Color.RED);
         pen.setBackground(Color.WHITE);
-        pen.translate(this.imageSize / 2, this.imageSize / 2);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         window.add(image);
         window.addKeyListener(new PauseListener());
+        window.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                scribe.fin();
+                window.dispose();
+                System.exit(0);
+            }
+        });
         if (isFullscreen) {
             window.setExtendedState(JFrame.MAXIMIZED_BOTH);
             window.setUndecorated(true);
         } else {
             window.pack();
         }
+        //pen.translate(this.imageSize / 2, this.imageSize / 2);
         window.setVisible(true);
-
     }
 
     /**
@@ -95,5 +107,4 @@ public class GUI {
 
         }
     }
-
 }
