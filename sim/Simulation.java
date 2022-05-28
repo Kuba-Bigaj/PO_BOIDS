@@ -2,6 +2,10 @@ package sim;
 
 import gui.GUI;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -12,10 +16,24 @@ import java.util.ArrayList;
  */
 @SuppressWarnings("ALL")
 public class Simulation {
+    private class Scribe {
+        private FileWriter writer;
+
+        Scribe() {
+            try {
+                this.writer = new FileWriter(new File("data_out/" + LocalDateTime.now().toString() + "boids.txt"));
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Failed to initialize a file!");
+            }
+        }
+    }
+
     private final int frameDelay;
     private ArrayList<Entity> entities = new ArrayList<>();
     private Boolean[] isPaused = {false};
     private GUI gui;
+    private Scribe scribe;
 
     /**
      * Constructor specyfying the framerate.
@@ -26,6 +44,7 @@ public class Simulation {
         double delay = frameRate / 60;
         delay *= 1000;
         this.frameDelay = (int) delay;
+        this.scribe = new Scribe();
     }
 
     /**
