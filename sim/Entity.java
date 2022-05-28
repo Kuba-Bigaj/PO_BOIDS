@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Entity implements GUIable {
-    Double posX, posY, velocity = 0.00, direction = 0.00, turnRate = 0.00, mass, massDecay;
+    protected Double posX, posY, vel = 0.00, dir = 0.00, turnRate = 0.00, mass, massDecay;
 
     Entity(Double posX, Double posY, Double mass, Double massDecay) {
         this.posX = posX;
