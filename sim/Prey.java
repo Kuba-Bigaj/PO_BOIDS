@@ -1,5 +1,6 @@
 package sim;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import static java.lang.Math.cos;
@@ -47,12 +48,26 @@ public class Prey extends Entity{
 
         return steer;
     }
+
     void move(ArrayList<Entity> entities) {
-        Vector alignment=Align(entities);
+        Vector alignment = Align(entities);
         Vector cohesion;
         posX += alignment.x;
         posY += alignment.y;
         posX %= 600;
         posX %= 600;
+    }
+
+    /**
+     * This method is responsible for displaying this object
+     *
+     * @param pen A Graphics2D object that is used to draw this entity.
+     * @author Kuba Bigaj
+     */
+    @Override
+    public void draw(Graphics2D pen) {
+        pen.translate(this.posX.intValue(), this.posY.intValue());
+        pen.setPaint(Color.RED);
+        pen.drawRoundRect(0, 0, 5, 5, 3, 3);
     }
 }

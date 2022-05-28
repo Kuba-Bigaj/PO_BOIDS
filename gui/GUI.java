@@ -40,6 +40,7 @@ public class GUI {
         this.pen = i.createGraphics();
         pen.setPaint(Color.RED);
         pen.setBackground(Color.WHITE);
+        pen.translate(this.imageSize / 2, this.imageSize / 2);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.add(image);
         window.addKeyListener(new PauseListener());

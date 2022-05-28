@@ -19,11 +19,14 @@ public abstract class Entity implements GUIable {
     }
 
     /**
+     * This method is responsible for displaying this object
+     *
      * @param pen A Graphics2D object that is used to draw this entity.
      * @author Kuba Bigaj
      */
+    @Override
     public void draw(Graphics2D pen) {
-        //TODO make it translate properly
+        pen.translate(this.posX.intValue(), this.posY.intValue());
         pen.setPaint(Color.RED);
         pen.drawRoundRect(0, 0, 5, 5, 3, 3);
     }
