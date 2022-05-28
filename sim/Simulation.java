@@ -2,10 +2,6 @@ package sim;
 
 import gui.GUI;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -16,19 +12,6 @@ import java.util.ArrayList;
  */
 @SuppressWarnings("ALL")
 public class Simulation {
-    private class Scribe {
-        private FileWriter writer;
-
-        Scribe() {
-            try {
-                this.writer = new FileWriter(new File("data_out/" + LocalDateTime.now().toString() + "boids.txt"));
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("Failed to initialize a file!");
-            }
-        }
-    }
-
     private final int frameDelay;
     private ArrayList<Entity> entities = new ArrayList<>();
     private Boolean[] isPaused = {false};
@@ -54,15 +37,6 @@ public class Simulation {
         this(60);
     }
 
-    private void guiInit() {
-        this.gui = new GUI(this.entities, 600, false, this.isPaused);
-    }
-
-    void add(Entity e) {
-        this.entities.add(e);
-        this.gui.add(e);
-    }
-
     /**
      * Main method of the project
      *
@@ -79,6 +53,11 @@ public class Simulation {
                 }
                 start = System.currentTimeMillis();
                 s.gui.update();
+                try {
+                    s.scribe.write("cheese");
+                } catch (Exception e) {
+
+                }
                 stop = System.currentTimeMillis();
                 if (stop < start + s.frameDelay) {
                     Thread.sleep(s.frameDelay - stop + start);
@@ -87,6 +66,15 @@ public class Simulation {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void guiInit() {
+        this.gui = new GUI(this.entities, 600, false, this.isPaused, this.scribe);
+    }
+
+    void add(Entity e) {
+        this.entities.add(e);
+        this.gui.add(e);
     }
 
 }
