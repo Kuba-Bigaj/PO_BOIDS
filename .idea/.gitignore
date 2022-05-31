@@ -2,3 +2,5 @@
 /shelf/
 /workspace.xml
 /discord.xml
+**/out/*
+/compiler.xml
