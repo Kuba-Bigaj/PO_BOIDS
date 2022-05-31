@@ -149,26 +149,45 @@ public class Prey extends Entity{
             entities.add(new Prey(this.posX+0.1,this.posY+0.1,1.0,0.1,rand.nextDouble() % 5,rand.nextDouble() % 360,Math.PI/4,20,20,20));
         }
     }
+    /*
+    Vector Run(ArrayList<Entity> entities){
+        int i,total=0;
+        double d;
+        Vector diff=new Vector(0,0);
+        Vector avgPos=new Vector(0,0);
+        for(i=0;i<entities.size();i++) {
+            d = Math.sqrt(Math.pow(this.posX - entities.get(i).posX, 2) + Math.pow(this.posY - entities.get(i).posY, 2));
+            if (entities.get(i) != this && d < fovEnemy&& entities.get(i).) {
+                diff.x=posX-entities.get(i).posX;
+                diff.y=posY-entities.get(i).posY;
+                diff.x/=d;
+                diff.y/=d;
+                avgPos.x+= posX+diff.x;
+                avgPos.y+= posX+diff.y;
+                total++;
+            }
+        }
+    }
+
+     */
 
     void move(ArrayList<Entity> entities) {
-        if(mass<1){
-            Vector eating=Eat(entities);
-            posX+=eating.x;
-            posY+=eating.y;
-        }
-        else {
-            Vector alignment = Align(entities);
-            Vector cohesion = Cohesion(entities);
-            Vector separation = Separation(entities);
-            posX += alignment.x;
-            posY += alignment.y;
-            posX += cohesion.x;
-            posY += cohesion.y;
-            posX += separation.x;
-            posY += separation.y;
-            posX %= 600;
-            posX %= 600;
-        }
+
+        Vector alignment = Align(entities);
+        Vector cohesion = Cohesion(entities);
+        Vector separation = Separation(entities);
+        posX += alignment.x;
+        posY += alignment.y;
+        posX += cohesion.x;
+        posY += cohesion.y;
+        posX += separation.x;
+        posY += separation.y;
+        Vector eating=Eat(entities);
+        posX+=eating.x;
+        posY+=eating.y;
+        posX %= 600;
+        posX %= 600;
+        Breed(entities);
         mass-=massDecay;
     }
 
