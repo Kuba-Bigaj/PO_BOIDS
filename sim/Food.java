@@ -17,5 +17,6 @@ public class Food extends Entity {
         pen.translate(this.posX.intValue(), this.posY.intValue());
         pen.setPaint(Color.GREEN);
         pen.drawRoundRect(0, 0, 5, 5, 3, 3);
+        pen.translate(-this.posX.intValue(), -this.posY.intValue());
     }
 }

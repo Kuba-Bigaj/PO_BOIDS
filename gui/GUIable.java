@@ -12,7 +12,7 @@ public interface GUIable {
      * @param pen Graphics2D object in which to draw
      */
     default void draw(Graphics2D pen) {
-        pen.setPaint(Color.BLUE);
+        pen.setPaint(Color.BLACK);
         pen.drawRoundRect(0, 0, 5, 5, 3, 3);
     }
 }

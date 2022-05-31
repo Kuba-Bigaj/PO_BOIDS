@@ -3,6 +3,7 @@ package sim;
 import gui.GUI;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * This is the main class of this project.
@@ -17,6 +18,7 @@ public class Simulation {
     private Boolean[] isPaused = {false};
     private GUI gui;
     private Scribe scribe;
+    private Feeder feeder;
 
     /**
      * Constructor specyfying the framerate.
@@ -43,21 +45,20 @@ public class Simulation {
      * @param args [To be implemented]
      */
     public static void main(String args[]) {
-        Simulation s = new Simulation(60);
+        Simulation s = new Simulation(3);
         long start, stop;
         s.guiInit();
+        s.feeder = new Feeder(50.0, 100.0, 200.0, 1);
         try {
             while (true) {
                 if (s.isPaused[0]) {
                     s.gui.pause();
                 }
                 start = System.currentTimeMillis();
-                s.gui.update();
-                try {
-                    s.scribe.write("cheese");
-                } catch (Exception e) {
+                s.feeder.feed(s);
+                System.out.println(s.entities.size());
 
-                }
+                s.gui.update();
                 stop = System.currentTimeMillis();
                 if (stop < start + s.frameDelay) {
                     Thread.sleep(s.frameDelay - stop + start);
@@ -75,6 +76,30 @@ public class Simulation {
     void add(Entity e) {
         this.entities.add(e);
         this.gui.add(e);
+    }
+
+    private static class Feeder {
+        Double xPos;
+        Double yPos;
+        Double range;
+        Integer amount;
+
+        public Feeder(Double xPos, Double yPos, Double range, Integer amount) {
+            this.xPos = xPos;
+            this.yPos = yPos;
+            this.range = range;
+            this.amount = amount;
+        }
+
+        void feed(Simulation s) {
+            Random rand = new Random();
+            for (int i = 0; i < amount; i++) {
+                Double x = xPos + rand.nextDouble() * range;
+                Double y = yPos + rand.nextDouble() * range;
+                s.add(new Food(x, y, rand.nextDouble() % 10, 0.0));
+            }
+        }
+
     }
 
 }
