@@ -3,9 +3,14 @@ import gui.GUIable;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.RoundRectangle2D;
 
 public abstract class Entity implements GUIable {
     protected Double posX, posY, vel = 0.00, dir = 0.00, turnRate = 0.00, mass, massDecay;
+    protected RoundRectangle2D.Double body = new RoundRectangle2D.Double(0, 0, 5, 5, 3, 3);
+    protected Color col=Color.RED;
 
     Entity(Double posX, Double posY, Double mass, Double massDecay) {
         this.posX = posX;
@@ -14,8 +19,8 @@ public abstract class Entity implements GUIable {
         this.massDecay = massDecay;
     }
 
-    public void die(ArrayList<Entity> entities) {
-
+    public void die(ArrayList<Entity> entities,Entity boid) {
+        entities.remove(boid);
     }
 
     /**
