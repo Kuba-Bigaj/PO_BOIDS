@@ -19,16 +19,17 @@ public class Prey extends Entity{
     /**
      * constructor Prey extends Entity
      */
-    Prey(Double posX, Double posY, Double mass, Double massDecay,Double vel,Double dir,Double turnRate,Integer fovAlly,Integer fovEnemy,Integer fovFood,Double desiredSeparation){
-        super(posX,posY,mass,massDecay);
-        this.vel=vel;
-        this.dir=toRadians(dir);
-        this.turnRate=turnRate;
-        this.fovAlly=fovAlly;
-        this.fovEnemy=fovEnemy;
-        this.fovFood=fovFood;
-        this.desiredSeparation=desiredSeparation;
+    Prey(Double posX, Double posY, Double mass, Double massDecay, Double dir, Double turnRate, Integer fovAlly, Integer fovEnemy, Integer fovFood, Double desiredSeparation) {
+        super(posX, posY, mass, massDecay);
+        this.vel = 1.0;
+        this.dir = toRadians(dir);
+        this.turnRate = turnRate;
+        this.fovAlly = fovAlly;
+        this.fovEnemy = fovEnemy;
+        this.fovFood = fovFood;
+        this.desiredSeparation = desiredSeparation;
     }
+
     /**
      * Method Alignment is used to steer entities towards average direction of the group
      * @param entities is used as navigated object
@@ -220,7 +221,7 @@ public class Prey extends Entity{
     void Breed(ArrayList<Entity> entities){
         Random rand= new Random();
         if(this.mass>=2){
-            entities.add(new Prey(this.posX+0.1,this.posY+0.1,1.0,0.1,5.0,rand.nextInt() % 360.0,Math.PI/4,20,20,20,15.0));
+            entities.add(new Prey(this.posX + 0.1, this.posY + 0.1, 1.0, 0.1, rand.nextInt() % 360.0, Math.PI / 4, 20, 20, 20, 15.0));
         }
     }
     /**
@@ -277,19 +278,20 @@ public class Prey extends Entity{
 
     /**
      * Method Move is used to add all movements of the object and turn it into one vector
+     *
      * @param entities is used as navigated object
      */
 
-
-    void move(ArrayList<Entity> entities) {
+    @Override
+    public void move(ArrayList<Entity> entities) {
         double avgDir;
-        avgDir=Alignment(entities)+Cohesion(entities)+Separation(entities)+Eat(entities)+Run(entities);
-        avgDir/=5;
-        dir=avgDir;
-        posX += cos(dir)*vel;
-        posY += sin(dir)*vel;
+        avgDir = Alignment(entities) + Cohesion(entities) + Separation(entities) + Eat(entities) + Run(entities);
+        avgDir /= 5;
+        dir = avgDir;
+        posX += cos(dir) * vel;
+        posY += sin(dir) * vel;
         Breed(entities);
-        mass-=massDecay;
+        mass -= massDecay;
     }
 
     /**

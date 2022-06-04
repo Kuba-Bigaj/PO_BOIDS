@@ -22,7 +22,6 @@ public class Scribe {
             System.exit(1);
         }
     }
-
     public void write(String s) {
         try {
             writer.write(s);
@@ -43,14 +42,24 @@ public class Scribe {
                 String newcomer = scanner.nextLine();
                 System.out.println(newcomer);
                 Scanner scanLine = new Scanner(newcomer);
-                if (scanLine.next().equals("Prey")) {
+                String type = scanLine.next();
+                if (type.equals("Prey")) {
                     System.out.println("Adding prey!");
-                    s.add(new Prey(scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextInt(), scanLine.nextInt(), scanLine.nextInt()));
+                    s.add(new Prey(scanLine.nextDouble(), //x
+                            scanLine.nextDouble(), //y
+                            scanLine.nextDouble(), //mass
+                            scanLine.nextDouble(), //mass decay
+                            scanLine.nextDouble(), //dir
+                            scanLine.nextDouble(), //turn rate
+                            scanLine.nextInt(), //fov Ally
+                            scanLine.nextInt(), //fov Enemy
+                            scanLine.nextInt(),  //fovFood
+                            scanLine.nextDouble())); //desired Separation
                 }
-                if (scanLine.next().equals("Predator")) {
+                /*if (scanLine.next().equals("Predator")) {
                     s.add(new Prey(scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextInt(), scanLine.nextInt(), scanLine.nextInt()));
-                }
-                if (scanLine.next().equals("Food")) {
+                }*/
+                if (type.equals("Food")) {
                     s.add(new Food(scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble()));
                 }
             }

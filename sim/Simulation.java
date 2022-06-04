@@ -52,6 +52,9 @@ public class Simulation {
 
 
                 s.feeder.feed(s);
+                for (int i = 0; i < s.entities.size(); ++i) {
+                    s.entities.get(i).move(s.entities);
+                }
                 s.gui.update();
                 stop = System.currentTimeMillis();
                 if (stop < start + s.frameDelay) {
