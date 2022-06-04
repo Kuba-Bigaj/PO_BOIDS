@@ -91,6 +91,10 @@ public class GUI {
         image.repaint();
     }
 
+    public void remove(GUIable object) {
+        this.toDraw.remove(object);
+    }
+
     private class PauseListener implements KeyListener {
         public void keyTyped(KeyEvent k) {
 

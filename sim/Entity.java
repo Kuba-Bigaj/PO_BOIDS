@@ -15,11 +15,22 @@ public abstract class Entity implements GUIable {
         this.massDecay = massDecay;
     }
 
-    public void die(ArrayList<Entity> entities, Entity boid) {
-        entities.remove(boid);
+    public void die(Simulation s) {
+        s.remove(this);
     }
 
-    public void move(ArrayList<Entity> entities) {
+    /**
+     * Outdated method, to be removed!
+     *
+     * @param entities
+     * @param e
+     * @deprecated
+     */
+    public void die(ArrayList<Entity> entities, Entity e) {
+        entities.remove(e);
+    }
+
+    public void move(Simulation s) {
 
     }
 
