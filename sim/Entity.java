@@ -27,7 +27,8 @@ public abstract class Entity implements GUIable {
     @Override
     public void draw(Graphics2D pen) {
         pen.translate(this.posX.intValue(), this.posY.intValue());
-        pen.setPaint(Color.RED);
+        pen.setPaint(Color.CYAN);
         pen.drawRoundRect(0, 0, 5, 5, 3, 3);
+        pen.translate(-this.posX.intValue(), -this.posY.intValue());
     }
 }

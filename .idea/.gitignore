@@ -3,4 +3,4 @@
 /workspace.xml
 /discord.xml
 **/out/*
-/compiler.xml
+**/data_out/*
