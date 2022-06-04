@@ -41,7 +41,7 @@ public class Prey extends Entity{
         for(i=0;i<entities.size();i++)
         {
             d=Math.sqrt(((this.posX - entities.get(i).posX)*(this.posX - entities.get(i).posX)) + ((this.posY - entities.get(i).posY)*(this.posY - entities.get(i).posY)));
-            if(entities.get(i)!=this && d<fovAlly && entities.get(i).getClass().getName().equals("Prey")){
+            if(entities.get(i)!=this && d<fovAlly && entities.get(i).getClass().getName().equals("sim.Prey")){
                 avgDir+=entities.get(i).dir;
                 total++;
             }
@@ -67,7 +67,7 @@ public class Prey extends Entity{
         Vector avgPos=new Vector(0,0);
         for(i=0;i<entities.size();i++) {
             d=Math.sqrt(((this.posX - entities.get(i).posX)*(this.posX - entities.get(i).posX)) + ((this.posY - entities.get(i).posY)*(this.posY - entities.get(i).posY)));
-            if (entities.get(i) != this && d < fovAlly && entities.get(i).getClass().getName().equals("Prey")) {
+            if (entities.get(i) != this && d < fovAlly && entities.get(i).getClass().getName().equals("sim.Prey")) {
                 avgPos.x += entities.get(i).posX;
                 avgPos.y += entities.get(i).posY;
                 total++;
@@ -81,19 +81,8 @@ public class Prey extends Entity{
             if(a>0)
                 avgDir=atan(b/a);
             else if(a<0)
-                avgDir=atan((b/a)+Math.PI);
+                avgDir=atan((b/a))+Math.PI;
             avgDir-=dir;
-
-
-
-            if(avgPos.x>=posX && avgPos.y>=posY)
-                avgDir=avgDir;
-            else if(avgPos.x<posX && avgPos.y>=posY)
-                avgDir=Math.PI-avgDir;
-            else if(avgPos.x<posX && avgPos.y<posY)
-                avgDir=Math.PI+avgDir;
-            else if(avgPos.x>=posX && avgPos.y<posY)
-                avgDir=-avgDir;
 
             if(avgDir>turnRate)
                 avgDir=turnRate;
@@ -115,7 +104,7 @@ public class Prey extends Entity{
         double d,a,b,avgDir=0.0;
         for(i=0;i<entities.size();i++) {
             d=Math.sqrt(((this.posX - entities.get(i).posX)*(this.posX - entities.get(i).posX)) + ((this.posY - entities.get(i).posY)*(this.posY - entities.get(i).posY)));
-            if (entities.get(i) != this && d < fovAlly && d<desiredSeparation && entities.get(i).getClass().getName().equals("Prey")) {
+            if (entities.get(i) != this && d < fovAlly && d<desiredSeparation && entities.get(i).getClass().getName().equals("sim.Prey")) {
                 diff.x=posX-entities.get(i).posX;
                 diff.y=posY-entities.get(i).posY;
                 diff.x/=d;
@@ -133,19 +122,8 @@ public class Prey extends Entity{
             if(a>0)
                 avgDir=atan(b/a);
             else if(a<0)
-                avgDir=atan((b/a)+Math.PI);
+                avgDir=atan((b/a))+Math.PI;
             avgDir-=dir;
-
-
-
-            if(avgPos.x>=posX && avgPos.y>=posY)
-                avgDir=avgDir;
-            else if(avgPos.x<posX && avgPos.y>=posY)
-                avgDir=Math.PI-avgDir;
-            else if(avgPos.x<posX && avgPos.y<posY)
-                avgDir=Math.PI+avgDir;
-            else if(avgPos.x>=posX && avgPos.y<posY)
-                avgDir=-avgDir;
 
             if(avgDir>turnRate)
                 avgDir=turnRate;
@@ -163,13 +141,14 @@ public class Prey extends Entity{
      */
     double Eat(ArrayList<Entity> entities){
         int i,id=-1;
-        double d,minD=fovFood+1.0,a,b,avgDir=0.0;
+        double d,minD=300+1.0,a,b,avgDir=0.0;
         Vector avgPos=new Vector(0,0);
 
 
         for(i=0;i<entities.size();i++) {
-            d=Math.sqrt(((this.posX - entities.get(i).posX)*(this.posX - entities.get(i).posX)) + ((this.posY - entities.get(i).posY)*(this.posY - entities.get(i).posY)));
-            if (entities.get(i) != this && d < fovFood && entities.get(i).getClass().getName().equals("Food")) {
+
+            d = Math.sqrt(Math.pow(this.posX - entities.get(i).posX, 2) + Math.pow(this.posY - entities.get(i).posY, 2));
+            if ( d < 200 && entities.get(i).getClass().getName().equals("sim.Food")) {
                 if(d<minD){
                     minD=d;
                     id=i;
@@ -177,9 +156,10 @@ public class Prey extends Entity{
             }
         }
         if(id>=0) {
-            if (this.posX - entities.get(id).posX < 1 && this.posY - entities.get(id).posY < 1) {
+            if (abs(this.posX - entities.get(id).posX) < 5 && abs(this.posY - entities.get(id).posY) < 5) {
                 this.mass += entities.get(id).mass;
                 die(entities,entities.get(id));
+
             }
             else {
                 avgPos.x = entities.get(id).posX;
@@ -189,28 +169,13 @@ public class Prey extends Entity{
                 if (a > 0)
                     avgDir = atan(b / a);
                 else if (a < 0)
-                    avgDir = atan((b / a) + Math.PI);
+                    avgDir = atan(b / a) + Math.PI;
                 avgDir -= dir;
-
-
-                if (avgPos.x >= posX && avgPos.y >= posY)
-                    avgDir = avgDir;
-                else if (avgPos.x < posX && avgPos.y >= posY)
-                    avgDir = Math.PI - avgDir;
-                else if (avgPos.x < posX && avgPos.y < posY)
-                    avgDir = Math.PI + avgDir;
-                else if (avgPos.x >= posX && avgPos.y < posY)
-                    avgDir = -avgDir;
 
                 if (avgDir > turnRate)
                     avgDir = turnRate;
                 else if (avgDir < -turnRate)
                     avgDir = -turnRate;
-
-                if (this.posX - entities.get(id).posX < 1 && this.posY - entities.get(id).posY < 1) {
-                    this.mass += entities.get(id).mass;
-                    die(entities, entities.get(id));
-                }
             }
         }
         return avgDir;
@@ -222,6 +187,7 @@ public class Prey extends Entity{
         Random rand= new Random();
         if(this.mass>=2){
             entities.add(new Prey(this.posX + 0.1, this.posY + 0.1, 1.0, 0.1, rand.nextInt() % 360.0, Math.PI / 4, 20, 20, 20, 15.0));
+            mass-=1;
         }
     }
     /**
@@ -235,7 +201,7 @@ public class Prey extends Entity{
         Vector avgPos=new Vector(0,0);
         for(i=0;i<entities.size();i++) {
             d = Math.sqrt(Math.pow(this.posX - entities.get(i).posX, 2) + Math.pow(this.posY - entities.get(i).posY, 2));
-            if (entities.get(i) != this && d < fovEnemy&& entities.get(i).getClass().getName().equals("Predator")) {
+            if (entities.get(i) != this && d < fovEnemy&& entities.get(i).getClass().getName().equals("sim.Predator")) {
                 diff.x=posX-entities.get(i).posX;
                 diff.y=posY-entities.get(i).posY;
                 diff.x/=d;
@@ -253,24 +219,15 @@ public class Prey extends Entity{
             if(a>0)
                 avgDir=atan(b/a);
             else if(a<0)
-                avgDir=atan((b/a)+Math.PI);
+                avgDir=atan((b/a))+Math.PI;
             avgDir-=dir;
-
-
-
-            if(avgPos.x>=posX && avgPos.y>=posY)
-                avgDir=avgDir;
-            else if(avgPos.x<posX && avgPos.y>=posY)
-                avgDir=Math.PI-avgDir;
-            else if(avgPos.x<posX && avgPos.y<posY)
-                avgDir=Math.PI+avgDir;
-            else if(avgPos.x>=posX && avgPos.y<posY)
-                avgDir=-avgDir;
 
             if(avgDir>turnRate)
                 avgDir=turnRate;
             else if(avgDir<-turnRate)
                 avgDir=-turnRate;
+
+
 
         }
         return avgDir;
@@ -286,8 +243,8 @@ public class Prey extends Entity{
     public void move(ArrayList<Entity> entities) {
         double avgDir;
         avgDir = Alignment(entities) + Cohesion(entities) + Separation(entities) + Eat(entities) + Run(entities);
-        avgDir /= 5;
-        dir = avgDir;
+        avgDir/=5;
+        dir += avgDir;
         posX += cos(dir) * vel;
         posY += sin(dir) * vel;
         Breed(entities);

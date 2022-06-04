@@ -25,7 +25,7 @@ public class Predator extends Entity {
 
         for(i=0;i<entities.size();i++) {
             d = Math.sqrt(Math.pow(this.posX - entities.get(i).posX, 2) + Math.pow(this.posY - entities.get(i).posY, 2));
-            if (entities.get(i) != this && d < fovPrey && d<desiredSeparatoin && entities.get(i).getClass().getName().equals("Prey")) {
+            if (entities.get(i) != this && d < fovPrey && d<desiredSeparatoin && entities.get(i).getClass().getName().equals("sim.Prey")) {
                 if(d<minD){
                     minD=d;
                     id=i;
@@ -45,18 +45,8 @@ public class Predator extends Entity {
                 if (a > 0)
                     avgDir = atan(b / a);
                 else if (a < 0)
-                    avgDir = atan((b / a) + Math.PI);
+                    avgDir = atan((b / a)) + Math.PI;
                 avgDir -= dir;
-
-
-                if (avgPos.x >= posX && avgPos.y >= posY)
-                    avgDir = avgDir;
-                else if (avgPos.x < posX && avgPos.y >= posY)
-                    avgDir = Math.PI - avgDir;
-                else if (avgPos.x < posX && avgPos.y < posY)
-                    avgDir = Math.PI + avgDir;
-                else if (avgPos.x >= posX && avgPos.y < posY)
-                    avgDir = -avgDir;
 
                 if (avgDir > turnRate)
                     avgDir = turnRate;
@@ -76,10 +66,11 @@ public class Predator extends Entity {
         Random rand= new Random();
         if(this.mass>=2){
             entities.add(new Predator(this.posX+0.1,this.posY+0.1,1.0,0.1,rand.nextDouble() % 5,rand.nextDouble() % 360,Math.PI/4,20,20.0));
+            mass-=1;
         }
     }
     void Move(ArrayList<Entity> entities){
-        dir=Eat(entities);
+        dir+=Eat(entities);
         posX+= cos(dir)*vel;
         posY+= sin(dir)*vel;
         Breed(entities);
