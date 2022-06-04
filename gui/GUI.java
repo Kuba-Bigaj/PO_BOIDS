@@ -62,7 +62,6 @@ public class GUI {
         } else {
             window.pack();
         }
-        //pen.translate(this.imageSize / 2, this.imageSize / 2);
         window.setVisible(true);
     }
 

@@ -11,32 +11,27 @@ import java.util.Random;
  * @author Kuba Bigaj
  * @version 0.5
  */
-@SuppressWarnings("ALL")
+
+@SuppressWarnings({"BusyWait", "InfiniteLoopStatement"})
 public class Simulation {
     private final int frameDelay;
-    private ArrayList<Entity> entities = new ArrayList<>();
-    private Boolean[] isPaused = {false};
+    ArrayList<Entity> entities = new ArrayList<>();
+    private final Boolean[] isPaused = {false};
     private GUI gui;
-    private Scribe scribe;
-    private Feeder feeder;
+    private final Scribe scribe;
+    Feeder feeder;
 
     /**
-     * Constructor specyfying the framerate.
+     * Constructor specifying the frame rate.
      *
-     * @param frameRate Desired framerate in fps
+     * @param frameRate Desired frame rate in fps
      */
-    public Simulation(double frameRate) {
+    public Simulation(boolean isFullscreen, Double frameRate, int imgSize, Scribe scr) {
         double delay = frameRate / 60;
         delay *= 1000;
         this.frameDelay = (int) delay;
-        this.scribe = new Scribe();
-    }
-
-    /**
-     * Default constructor
-     */
-    public Simulation() {
-        this(60);
+        this.scribe = scr;
+        this.guiInit(isFullscreen, imgSize);
     }
 
     /**
@@ -44,20 +39,19 @@ public class Simulation {
      *
      * @param args [To be implemented]
      */
-    public static void main(String args[]) {
-        Simulation s = new Simulation(3);
+    public static void main(String[] args) {
+        Scribe scr = new Scribe();
+        Simulation s = scr.simInit(args[0]);
         long start, stop;
-        s.guiInit();
-        s.feeder = new Feeder(50.0, 100.0, 200.0, 1);
         try {
             while (true) {
                 if (s.isPaused[0]) {
                     s.gui.pause();
                 }
                 start = System.currentTimeMillis();
-                s.feeder.feed(s);
-                System.out.println(s.entities.size());
 
+
+                s.feeder.feed(s);
                 s.gui.update();
                 stop = System.currentTimeMillis();
                 if (stop < start + s.frameDelay) {
@@ -69,8 +63,8 @@ public class Simulation {
         }
     }
 
-    private void guiInit() {
-        this.gui = new GUI(this.entities, 600, false, this.isPaused, this.scribe);
+    private void guiInit(boolean isFullscreen, int imgSize) {
+        this.gui = new GUI(this.entities, imgSize, isFullscreen, this.isPaused, this.scribe);
     }
 
     void add(Entity e) {
@@ -78,7 +72,7 @@ public class Simulation {
         this.gui.add(e);
     }
 
-    private static class Feeder {
+    static class Feeder {
         Double xPos;
         Double yPos;
         Double range;
@@ -93,11 +87,9 @@ public class Simulation {
 
         void feed(Simulation s) {
             Random rand = new Random();
-            for (int i = 0; i < amount; i++) {
-                Double x = xPos + rand.nextDouble() * range;
-                Double y = yPos + rand.nextDouble() * range;
-                s.add(new Food(x, y, rand.nextDouble() % 10, 0.0));
-            }
+            Double x = xPos + rand.nextDouble() * range;
+            Double y = yPos + rand.nextDouble() * range;
+            s.add(new Food(x, y, rand.nextDouble() % amount, 0.0));
         }
 
     }
