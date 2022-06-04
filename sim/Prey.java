@@ -20,7 +20,7 @@ public class Prey extends Entity{
      */
     Prey(Double posX, Double posY, Double mass, Double massDecay, Double dir, Double turnRate, Integer fovAlly, Integer fovEnemy, Integer fovFood, Double desiredSeparation) {
         super(posX, posY, mass, massDecay);
-        this.vel = 1.0;
+        this.vel = 2.0;
         this.dir = toRadians(dir);
         this.turnRate = turnRate;
         this.fovAlly = fovAlly;
@@ -190,7 +190,7 @@ public class Prey extends Entity{
     void Breed(Simulation s) {
         Random rand = new Random();
         if (this.mass >= 2) {
-            s.entities.add(new Prey(this.posX + 0.1, this.posY + 0.1, 1.0, 0.1, rand.nextInt() % 360.0, Math.PI / 4, 20, 20, 20, 15.0));
+            s.add(new Prey(this.posX + 0.1, this.posY + 0.1, 1.0, 0.1, rand.nextInt() % 360.0, Math.PI / 4, 20, 20, 20, 15.0));
             mass -= 1;
         }
     }
