@@ -80,6 +80,19 @@ public class Simulation {
         this.gui.remove(e);
     }
 
+    void dumpData(){
+        for (int i=0; i< this.entities.size(); i++){
+            String type=this.entities.get(i).getClass().getName();
+            Double totalBiomass=0.0;
+            Integer creatureNumber=0;
+            if(type.equals("Prey") || type.equals("Predator")){
+                totalBiomass+=this.entities.get(i).getMass();
+                creatureNumber++;
+            }
+            this.scribe.write("Number of creatures: "+creatureNumber.toString()+"\t Total creature mass:"+ totalBiomass.toString()+"\n");
+        }
+    }
+
     static class Feeder {
         Double xPos;
         Double yPos;

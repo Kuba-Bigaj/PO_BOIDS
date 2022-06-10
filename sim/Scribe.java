@@ -15,9 +15,9 @@ public class Scribe {
     Scribe() {
         try {
             System.out.println(LocalDate.now());
-            File f = new File("data_out\\" + LocalDate.now() + ".txt");
+            File f = new File("data_out\\");
             f.mkdirs();
-            this.writer = new FileWriter(f);
+            this.writer = new FileWriter("data_out\\" + LocalDate.now() + ".txt");
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Failed to initialize a file!");

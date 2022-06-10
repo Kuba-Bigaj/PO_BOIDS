@@ -15,6 +15,10 @@ public abstract class Entity implements GUIable {
         this.massDecay = massDecay;
     }
 
+    public Double getMass() {
+        return mass;
+    }
+
     public void die(Simulation s) {
         s.remove(this);
     }
