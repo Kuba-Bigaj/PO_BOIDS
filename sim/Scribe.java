@@ -56,10 +56,11 @@ public class Scribe {
                             scanLine.nextInt(), //fov Ally
                             scanLine.nextInt(), //fov Enemy
                             scanLine.nextInt(),  //fovFood
-                            scanLine.nextDouble())); //desired Separation
+                            scanLine.nextDouble(), //desired Separation
+                            s)); //parent simulation
                 }
                 if (type.equals("Food")) {
-                    s.add(new Food(scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble()));
+                    s.add(new Food(scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), s));
                 }
             }
         } catch (FileNotFoundException e) {

@@ -9,8 +9,8 @@ public class Predator extends Entity {
 
     protected Integer fovPrey;
     protected Double desiredSeparatoin;
-    Predator(Double posX, Double posY, Double mass, Double massDecay,Double vel,Double dir,Double turnRate,Integer fovPrey,Double desiredSeparation){
-        super(posX,posY,mass,massDecay);
+    Predator(Double posX, Double posY, Double mass, Double massDecay,Double vel,Double dir,Double turnRate,Integer fovPrey,Double desiredSeparation, Simulation sim){
+        super(posX,posY,mass,massDecay, sim);
         this.vel=vel;
         this.dir=toRadians(dir);
         this.turnRate=turnRate;
@@ -63,11 +63,11 @@ public class Predator extends Entity {
 
     }
     void Breed(ArrayList<Entity> entities){
-        Random rand= new Random();
+        /*Random rand= new Random(); copy from prey
         if(this.mass>=2){
             entities.add(new Predator(this.posX+0.1,this.posY+0.1,1.0,0.1,rand.nextDouble() % 5,rand.nextDouble() % 360,Math.PI/4,20,20.0));
             mass-=1;
-        }
+        }*/
     }
     void Move(ArrayList<Entity> entities){
         dir+=Eat(entities);

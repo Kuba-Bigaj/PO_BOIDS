@@ -62,7 +62,7 @@ public class Simulation {
 
                 s.feeder.feed(s);
                 for (int i = 0; i < s.entities.size(); ++i) {
-                    s.entities.get(i).move(s);
+                    s.entities.get(i).move();
                 }
                 s.gui.update();
                 stop = System.currentTimeMillis();
@@ -120,7 +120,7 @@ public class Simulation {
             Random rand = new Random();
             Double x = xPos + rand.nextDouble() * range;
             Double y = yPos + rand.nextDouble() * range;
-            s.add(new Food(x, y, rand.nextDouble() * amount, 0.0));
+            s.add(new Food(x, y, rand.nextDouble() * amount, 0.0, s));
         }
 
     }

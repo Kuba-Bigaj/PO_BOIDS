@@ -3,8 +3,8 @@ package sim;
 import java.awt.*;
 
 public class Food extends Entity {
-    Food(Double posX, Double posY, Double mass, Double massDecay) {
-        super(posX, posY, mass, massDecay);
+    Food(Double posX, Double posY, Double mass, Double massDecay, Simulation sim) {
+        super(posX, posY, mass, massDecay,sim);
     }
 
     /**

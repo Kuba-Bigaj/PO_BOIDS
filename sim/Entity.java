@@ -7,34 +7,34 @@ import java.util.ArrayList;
 
 public abstract class Entity implements GUIable {
     protected Double posX, posY, vel = 0.00, dir = 0.00, turnRate = 0.00, mass, massDecay;
+    protected Simulation sim;
 
-    Entity(Double posX, Double posY, Double mass, Double massDecay) {
+    Entity(Double posX, Double posY, Double mass, Double massDecay, Simulation sim) {
         this.posX = posX;
         this.posY = posY;
         this.mass = mass;
         this.massDecay = massDecay;
+        this.sim=sim;
     }
 
     public Double getMass() {
         return mass;
     }
 
-    public void die(Simulation s) {
-        s.remove(this);
+    public void die() {
+        this.sim.remove(this);
     }
 
     /**
      * Outdated method, to be removed!
-     *
-     * @param entities
-     * @param e
      * @deprecated
      */
+    @Deprecated
     public void die(ArrayList<Entity> entities, Entity e) {
         entities.remove(e);
     }
 
-    public void move(Simulation s) {
+    public void move() {
 
     }
 

@@ -18,8 +18,8 @@ public class Prey extends Entity{
     /**
      * constructor Prey extends Entity
      */
-    Prey(Double posX, Double posY, Double mass, Double massDecay, Double dir, Double turnRate, Integer fovAlly, Integer fovEnemy, Integer fovFood, Double desiredSeparation) {
-        super(posX, posY, mass, massDecay);
+    Prey(Double posX, Double posY, Double mass, Double massDecay, Double dir, Double turnRate, Integer fovAlly, Integer fovEnemy, Integer fovFood, Double desiredSeparation, Simulation sim) {
+        super(posX, posY, mass, massDecay, sim);
         this.vel = 2.0;
         this.dir = toRadians(dir);
         this.turnRate = turnRate;
@@ -32,16 +32,16 @@ public class Prey extends Entity{
     /**
      * Method Alignment is used to steer entities towards average direction of the group
      *
-     * @param s simulation of which the object is part of
+     *
      */
-    double alignment(Simulation s) {
+    double alignment() {
         double avgDir = 0.0, d;
         int i, total = 0;
 
-        for (i = 0; i < s.entities.size(); i++) {
-            d = Math.sqrt(((this.posX - s.entities.get(i).posX) * (this.posX - s.entities.get(i).posX)) + ((this.posY - s.entities.get(i).posY) * (this.posY - s.entities.get(i).posY)));
-            if (s.entities.get(i) != this && d < fovAlly && s.entities.get(i).getClass().getName().equals("sim.Prey")) {
-                avgDir += s.entities.get(i).dir;
+        for (i = 0; i < this.sim.entities.size(); i++) {
+            d = Math.sqrt(((this.posX - this.sim.entities.get(i).posX) * (this.posX - this.sim.entities.get(i).posX)) + ((this.posY - this.sim.entities.get(i).posY) * (this.posY - this.sim.entities.get(i).posY)));
+            if (this.sim.entities.get(i) != this && d < fovAlly && this.sim.entities.get(i).getClass().getName().equals("sim.Prey")) {
+                avgDir += this.sim.entities.get(i).dir;
                 total++;
             }
         }
@@ -59,17 +59,17 @@ public class Prey extends Entity{
     /**
      * Method Cohesion is used to steer entities towards average location of the group
      *
-     * @param s simulation of which the object is part of
+     *
      */
-    double cohesion(Simulation s) {
+    double cohesion() {
         int i, total = 0;
         double a, b, d, avgDir = 0.0;
         Vector avgPos = new Vector(0, 0);
-        for (i = 0; i < s.entities.size(); i++) {
-            d = Math.sqrt(((this.posX - s.entities.get(i).posX) * (this.posX - s.entities.get(i).posX)) + ((this.posY - s.entities.get(i).posY) * (this.posY - s.entities.get(i).posY)));
-            if (s.entities.get(i) != this && d < fovAlly && s.entities.get(i).getClass().getName().equals("sim.Prey")) {
-                avgPos.x += s.entities.get(i).posX;
-                avgPos.y += s.entities.get(i).posY;
+        for (i = 0; i < this.sim.entities.size(); i++) {
+            d = Math.sqrt(((this.posX - this.sim.entities.get(i).posX) * (this.posX - this.sim.entities.get(i).posX)) + ((this.posY - this.sim.entities.get(i).posY) * (this.posY - this.sim.entities.get(i).posY)));
+            if (this.sim.entities.get(i) != this && d < fovAlly && this.sim.entities.get(i).getClass().getName().equals("sim.Prey")) {
+                avgPos.x += this.sim.entities.get(i).posX;
+                avgPos.y += this.sim.entities.get(i).posY;
                 total++;
             }
         }
@@ -97,18 +97,18 @@ public class Prey extends Entity{
     /**
      * Method Separation is used to steer entities to the opposite direction than the average location of the group to avoid crowding
      *
-     * @param s simulation of which the object is part of
+     *
      */
-    double separation(Simulation s) {
+    double separation() {
         Vector avgPos = new Vector(0, 0);
         Vector diff = new Vector(0, 0);
         int total = 0, i;
         double d, a, b, avgDir = 0.0;
-        for (i = 0; i < s.entities.size(); i++) {
-            d = Math.sqrt(((this.posX - s.entities.get(i).posX) * (this.posX - s.entities.get(i).posX)) + ((this.posY - s.entities.get(i).posY) * (this.posY - s.entities.get(i).posY)));
-            if (s.entities.get(i) != this && d < fovAlly && d < desiredSeparation && s.entities.get(i).getClass().getName().equals("sim.Prey")) {
-                diff.x = posX - s.entities.get(i).posX;
-                diff.y = posY - s.entities.get(i).posY;
+        for (i = 0; i < this.sim.entities.size(); i++) {
+            d = Math.sqrt(((this.posX - this.sim.entities.get(i).posX) * (this.posX - this.sim.entities.get(i).posX)) + ((this.posY - this.sim.entities.get(i).posY) * (this.posY - this.sim.entities.get(i).posY)));
+            if (this.sim.entities.get(i) != this && d < fovAlly && d < desiredSeparation && this.sim.entities.get(i).getClass().getName().equals("sim.Prey")) {
+                diff.x = posX - this.sim.entities.get(i).posX;
+                diff.y = posY - this.sim.entities.get(i).posY;
                 diff.x /= d;
                 diff.y /= d;
                 avgPos.x += posX + diff.x;
@@ -141,18 +141,18 @@ public class Prey extends Entity{
     /**
      * Method Eat is used to navigate objects towards food
      *
-     * @param s simulation of which the object is part of
+     *
      */
-    double eat(Simulation s) {
+    double eat() {
         int i, id = -1;
         double d, minD = 300 + 1.0, a, b, avgDir = 0.0;
         Vector avgPos = new Vector(0, 0);
 
 
-        for (i = 0; i < s.entities.size(); i++) {
+        for (i = 0; i < this.sim.entities.size(); i++) {
 
-            d = Math.sqrt(Math.pow(this.posX - s.entities.get(i).posX, 2) + Math.pow(this.posY - s.entities.get(i).posY, 2));
-            if (d < 200 && s.entities.get(i).getClass().getName().equals("sim.Food")) {
+            d = Math.sqrt(Math.pow(this.posX - this.sim.entities.get(i).posX, 2) + Math.pow(this.posY - this.sim.entities.get(i).posY, 2));
+            if (d < 200 && this.sim.entities.get(i).getClass().getName().equals("sim.Food")) {
                 if (d < minD) {
                     minD = d;
                     id = i;
@@ -160,13 +160,13 @@ public class Prey extends Entity{
             }
         }
         if (id >= 0) {
-            if (abs(this.posX - s.entities.get(id).posX) < 5 && abs(this.posY - s.entities.get(id).posY) < 5) {
-                this.mass += s.entities.get(id).mass;
-                s.entities.get(id).die(s);
+            if (abs(this.posX - this.sim.entities.get(id).posX) < 5 && abs(this.posY - this.sim.entities.get(id).posY) < 5) {
+                this.mass += this.sim.entities.get(id).mass;
+                this.sim.entities.get(id).die();
 
             } else {
-                avgPos.x = s.entities.get(id).posX;
-                avgPos.y = s.entities.get(id).posY;
+                avgPos.x = this.sim.entities.get(id).posX;
+                avgPos.y = this.sim.entities.get(id).posY;
                 a = avgPos.x - posX;
                 b = avgPos.y - posY;
                 if (a > 0)
@@ -187,10 +187,10 @@ public class Prey extends Entity{
     /**
      * Method Breed is used to add new objects based on the amount of food they ate
      */
-    void breed(Simulation s) {
+    void breed() {
         Random rand = new Random();
         if (this.mass >= 4) {
-            s.add(new Prey(this.posX, this.posY, 1.0, this.massDecay, rand.nextDouble() *Math.PI*2, Math.PI / 4, this.fovAlly, this.fovEnemy, this.fovFood, this.desiredSeparation));
+            this.sim.add(new Prey(this.posX, this.posY, 1.0, this.massDecay, rand.nextDouble() *Math.PI*2, Math.PI / 4, this.fovAlly, this.fovEnemy, this.fovFood, this.desiredSeparation, this.sim));
             this.mass -= 1;
         }
     }
@@ -198,18 +198,18 @@ public class Prey extends Entity{
     /**
      * Method Run is used to navigate objects to run from the predators
      *
-     * @param s simulation of which the object is part of
+     *
      */
-    double Run(Simulation s) {
+    double Run() {
         int i, total = 0;
         double a, b, d, avgDir = 0.0;
         Vector diff = new Vector(0, 0);
         Vector avgPos = new Vector(0, 0);
-        for (i = 0; i < s.entities.size(); i++) {
-            d = Math.sqrt(Math.pow(this.posX - s.entities.get(i).posX, 2) + Math.pow(this.posY - s.entities.get(i).posY, 2));
-            if (s.entities.get(i) != this && d < fovEnemy && s.entities.get(i).getClass().getName().equals("sim.Predator")) {
-                diff.x = posX - s.entities.get(i).posX;
-                diff.y = posY - s.entities.get(i).posY;
+        for (i = 0; i < this.sim.entities.size(); i++) {
+            d = Math.sqrt(Math.pow(this.posX - this.sim.entities.get(i).posX, 2) + Math.pow(this.posY - this.sim.entities.get(i).posY, 2));
+            if (this.sim.entities.get(i) != this && d < fovEnemy && this.sim.entities.get(i).getClass().getName().equals("sim.Predator")) {
+                diff.x = posX - this.sim.entities.get(i).posX;
+                diff.y = posY - this.sim.entities.get(i).posY;
                 diff.x /= d;
                 diff.y /= d;
                 avgPos.x += posX + diff.x;
@@ -242,21 +242,21 @@ public class Prey extends Entity{
     /**
      * Method Move is used to add all movements of the object and turn it into one vector
      *
-     * @param s simulation of which the object is part of
+     *
      */
 
     @Override
-    public void move(Simulation s) {
+    public void move() {
         double avgDir;
-        avgDir = alignment(s) + cohesion(s) + separation(s) + eat(s) + Run(s);
+        avgDir = alignment() + cohesion() + separation() + eat() + Run();
         avgDir /= 5;
         dir += avgDir;
         posX += cos(dir) * vel;
         posY += sin(dir) * vel;
-        breed(s);
+        breed();
         mass -= massDecay;
         if (mass<0){
-            this.die(s);
+            this.die();
         }
     }
 
