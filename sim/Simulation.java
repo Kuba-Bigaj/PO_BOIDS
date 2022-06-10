@@ -1,9 +1,10 @@
 package sim;
 
 import gui.GUI;
-
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This is the main class of this project.
@@ -19,6 +20,7 @@ public class Simulation {
     private final Boolean[] isPaused = {false};
     private GUI gui;
     private final Scribe scribe;
+    static Timer dataOut= new Timer(true);
     Feeder feeder;
 
     /**
@@ -41,7 +43,14 @@ public class Simulation {
      */
     public static void main(String[] args) {
         Scribe scr = new Scribe();
-        Simulation s = scr.simInit(args[0]);
+        final Simulation s = scr.simInit(args[0]);
+        dataOut.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                s.dumpData();
+            }
+        }, 1000, 1000);
+        s.dumpData();
         long start, stop;
         try {
             while (true) {
@@ -81,16 +90,17 @@ public class Simulation {
     }
 
     void dumpData(){
+        Double totalBiomass=0.0;
+        Integer creatureNumber=0;
         for (int i=0; i< this.entities.size(); i++){
             String type=this.entities.get(i).getClass().getName();
-            Double totalBiomass=0.0;
-            Integer creatureNumber=0;
-            if(type.equals("Prey") || type.equals("Predator")){
+            if(type.equals("sim.Prey") || type.equals("sim.Predator")){
+                System.out.println(this.entities.get(i).getMass());
                 totalBiomass+=this.entities.get(i).getMass();
                 creatureNumber++;
             }
-            this.scribe.write("Number of creatures: "+creatureNumber.toString()+"\t Total creature mass:"+ totalBiomass.toString()+"\n");
         }
+        this.scribe.write("Number of creatures: "+creatureNumber.toString()+"\t Total creature mass:"+ totalBiomass.toString()+"\n");
     }
 
     static class Feeder {

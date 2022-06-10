@@ -34,7 +34,7 @@ public class Prey extends Entity{
      *
      * @param s simulation of which the object is part of
      */
-    double Alignment(Simulation s) {
+    double alignment(Simulation s) {
         double avgDir = 0.0, d;
         int i, total = 0;
 
@@ -61,7 +61,7 @@ public class Prey extends Entity{
      *
      * @param s simulation of which the object is part of
      */
-    double Cohesion(Simulation s) {
+    double cohesion(Simulation s) {
         int i, total = 0;
         double a, b, d, avgDir = 0.0;
         Vector avgPos = new Vector(0, 0);
@@ -99,7 +99,7 @@ public class Prey extends Entity{
      *
      * @param s simulation of which the object is part of
      */
-    double Separation(Simulation s) {
+    double separation(Simulation s) {
         Vector avgPos = new Vector(0, 0);
         Vector diff = new Vector(0, 0);
         int total = 0, i;
@@ -143,7 +143,7 @@ public class Prey extends Entity{
      *
      * @param s simulation of which the object is part of
      */
-    double Eat(Simulation s) {
+    double eat(Simulation s) {
         int i, id = -1;
         double d, minD = 300 + 1.0, a, b, avgDir = 0.0;
         Vector avgPos = new Vector(0, 0);
@@ -187,11 +187,11 @@ public class Prey extends Entity{
     /**
      * Method Breed is used to add new objects based on the amount of food they ate
      */
-    void Breed(Simulation s) {
+    void breed(Simulation s) {
         Random rand = new Random();
-        if (this.mass >= 2) {
-            s.add(new Prey(this.posX + 0.1, this.posY + 0.1, 1.0, 0.1, rand.nextInt() % 360.0, Math.PI / 4, 20, 20, 20, 15.0));
-            mass -= 1;
+        if (this.mass >= 4) {
+            s.add(new Prey(this.posX, this.posY, 1.0, this.massDecay, rand.nextDouble() *Math.PI*2, Math.PI / 4, this.fovAlly, this.fovEnemy, this.fovFood, this.desiredSeparation));
+            this.mass -= 1;
         }
     }
 
@@ -248,13 +248,16 @@ public class Prey extends Entity{
     @Override
     public void move(Simulation s) {
         double avgDir;
-        avgDir = Alignment(s) + Cohesion(s) + Separation(s) + Eat(s) + Run(s);
+        avgDir = alignment(s) + cohesion(s) + separation(s) + eat(s) + Run(s);
         avgDir /= 5;
         dir += avgDir;
         posX += cos(dir) * vel;
         posY += sin(dir) * vel;
-        Breed(s);
+        breed(s);
         mass -= massDecay;
+        if (mass<0){
+            this.die(s);
+        }
     }
 
     /**

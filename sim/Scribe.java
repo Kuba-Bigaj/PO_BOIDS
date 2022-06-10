@@ -58,9 +58,6 @@ public class Scribe {
                             scanLine.nextInt(),  //fovFood
                             scanLine.nextDouble())); //desired Separation
                 }
-                /*if (scanLine.next().equals("Predator")) {
-                    s.add(new Prey(scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextInt(), scanLine.nextInt(), scanLine.nextInt()));
-                }*/
                 if (type.equals("Food")) {
                     s.add(new Food(scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble(), scanLine.nextDouble()));
                 }
@@ -68,10 +65,7 @@ public class Scribe {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
         return s;
-
-    
     }
 
     public void fin() {
