@@ -48,7 +48,7 @@ public class Predator extends Entity {
 	double eat() {
 
 		int i, id = -1;
-		double d, minD = fovPrey + 1.0, a, b, avgDir = 0.0;
+		double d, minD = Double.MAX_VALUE, a, b, avgDir = 0.0;
 		Vector avgPos = new Vector(0, 0);
 
 		if (this.mass < 3) {
@@ -62,7 +62,7 @@ public class Predator extends Entity {
 				}
 			}
 			if (id >= 0) {
-				if (this.posX - sim.entities.get(id).posX < 5 && this.posY - sim.entities.get(id).posY < 5) {
+				if (Math.abs(this.posX - sim.entities.get(id).posX) < 5 && Math.abs(this.posY - sim.entities.get(id).posY) < 5) {
 					this.mass += sim.entities.get(id).mass;
 					this.sim.entities.get(id).die();
 					System.out.println("Prey slaughtered!");
