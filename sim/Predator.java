@@ -17,7 +17,7 @@ public class Predator extends Entity {
         this.fovPrey=fovPrey;
         this.desiredSeparation=desiredSeparation;
     }
-    double cohesion() {
+    private double cohesion() {
         int i, total = 0;
         double a, b, d, avgDir = 0.0;
         Vector avgPos = new Vector(0, 0);
@@ -49,7 +49,7 @@ public class Predator extends Entity {
         return avgDir;
 
     }
-    double separation() {
+    private double separation() {
         Vector avgPos = new Vector(0, 0);
         Vector diff = new Vector(0, 0);
         int total = 0, i;
@@ -87,10 +87,10 @@ public class Predator extends Entity {
 
         return avgDir;
     }
-    double eat(){
+    private double eat(){
 
         int i,id=-1;
-        double d,minD=fovPrey+1.0,a,b,avgDir=0.0;
+        double d,minD=Double.MAX_VALUE,a,b,avgDir=0.0;
         Vector avgPos=new Vector(0,0);
 
         if(this.mass<3){
@@ -104,7 +104,7 @@ public class Predator extends Entity {
             }
         }
         if(id>=0) {
-            if (this.posX - sim.entities.get(id).posX < 1 && this.posY - sim.entities.get(id).posY < 1) {
+            if (Math.abs(this.posX - sim.entities.get(id).posX) < 1 && Math.abs(this.posY - sim.entities.get(id).posY) < 1) {
                 this.mass += sim.entities.get(id).mass;
                 this.sim.entities.get(id).die();
                 System.out.println("Prey slaughtered!");
@@ -129,7 +129,7 @@ public class Predator extends Entity {
         return avgDir;
 
     }
-    void breed(){
+    private void breed(){
         Random rand = new Random();
         if (this.mass >= 4) {
             this.sim.add(new Predator(this.posX, this.posY, 1.0, this.massDecay, rand.nextDouble() *Math.PI*2, Math.PI / 4,this.fovPrey,this.desiredSeparation,this.sim));
