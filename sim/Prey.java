@@ -106,7 +106,7 @@ public class Prey extends Entity{
         double d, a, b, avgDir = 0.0;
         for (i = 0; i < this.sim.entities.size(); i++) {
             d = Math.sqrt(((this.posX - this.sim.entities.get(i).posX) * (this.posX - this.sim.entities.get(i).posX)) + ((this.posY - this.sim.entities.get(i).posY) * (this.posY - this.sim.entities.get(i).posY)));
-            if (this.sim.entities.get(i) != this && d < fovAlly && d < desiredSeparation && this.sim.entities.get(i).getClass().getName().equals("sim.Prey")) {
+            if (this.sim.entities.get(i) != this && d < fovAlly  && this.sim.entities.get(i).getClass().getName().equals("sim.Prey")) {
                 diff.x = posX - this.sim.entities.get(i).posX;
                 diff.y = posY - this.sim.entities.get(i).posY;
                 diff.x /= d;
@@ -190,7 +190,7 @@ public class Prey extends Entity{
     void breed() {
         Random rand = new Random();
         if (this.mass >= 4) {
-            this.sim.add(new Prey(this.posX, this.posY, 1.0, this.massDecay, rand.nextDouble() *Math.PI*2, Math.PI / 4, this.fovAlly, this.fovEnemy, this.fovFood, this.desiredSeparation, this.sim));
+            this.sim.add(new Prey(this.posX+1, this.posY+1, 1.0, this.massDecay, rand.nextDouble() *Math.PI*2, Math.PI / 4, this.fovAlly, this.fovEnemy, this.fovFood, this.desiredSeparation, this.sim));
             this.mass -= 1;
         }
     }
@@ -200,7 +200,7 @@ public class Prey extends Entity{
      *
      *
      */
-    double Run() {
+    double run() {
         int i, total = 0;
         double a, b, d, avgDir = 0.0;
         Vector diff = new Vector(0, 0);
@@ -247,10 +247,28 @@ public class Prey extends Entity{
 
     @Override
     public void move() {
-        double avgDir;
-        avgDir = alignment() + cohesion() + separation() + eat() + Run();
-        avgDir /= 5;
-        dir += avgDir;
+        double avgDir, hunger=1+(5/mass),runDiv,eatDiv,algnDiv,cohDiv,sepDiv;
+        int div=0;
+        algnDiv=alignment();
+        cohDiv=cohesion();
+        sepDiv=separation();
+        runDiv=run();
+        eatDiv=eat();
+        if(algnDiv!=0)
+            div++;
+        if(cohDiv!=0)
+            div++;
+        if(sepDiv!=0)
+            div++;
+        if(runDiv!=0)
+            div++;
+        if(eatDiv!=0)
+            div+=hunger;
+        if(div>0) {
+            avgDir = algnDiv + cohDiv + sepDiv + hunger * eatDiv + runDiv;
+            avgDir /= div;
+            dir += avgDir;
+        }
         posX += cos(dir) * vel;
         posY += sin(dir) * vel;
         breed();
