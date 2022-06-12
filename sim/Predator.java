@@ -37,7 +37,7 @@ public class Predator extends Entity {
 		}
 	}
 
-	void breed() {
+	private void breed() {
 		Random rand = new Random();
 		if (this.mass >= 4) {
 			this.sim.add(new Predator(this.posX, this.posY, 1.0, this.massDecay, rand.nextDouble() * Math.PI * 2, Math.PI / 4, this.fovPrey, this.desiredSeparation, this.sim));
@@ -45,7 +45,7 @@ public class Predator extends Entity {
 		}
 	}
 
-	double eat() {
+	private double eat() {
 
 		int i, id = -1;
 		double d, minD = Double.MAX_VALUE, a, b, avgDir = 0.0;
@@ -84,7 +84,7 @@ public class Predator extends Entity {
 
 	}
 
-	double separation() {
+	private double separation() {
 		Vector avgPos = new Vector(0, 0);
 		Vector diff = new Vector(0, 0);
 		int total = 0, i;
