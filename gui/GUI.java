@@ -41,7 +41,6 @@ public class GUI {
             this.imageSize= (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         } else {
             this.imageSize = imageSize;
-            window.pack();
         }
         this.isPaused = isPaused;
         this.scribe = scr;
@@ -61,7 +60,9 @@ public class GUI {
                 System.exit(0);
             }
         });
-
+        if (!isFullscreen){
+            window.pack();
+        }
         window.setVisible(true);
     }
 
