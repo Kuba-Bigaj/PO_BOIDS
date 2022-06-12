@@ -58,10 +58,8 @@ public class Simulation {
                     s.gui.pause();
                 }
                 start = System.currentTimeMillis();
-
-
                 s.feeder.feed(s);
-                for (int i = 0; i < s.entities.size(); ++i) {
+                for (int i = 0; i < s.entities.size(); i++) {
                     s.entities.get(i).move();
                 }
                 s.gui.update();
@@ -88,19 +86,28 @@ public class Simulation {
         this.entities.remove(e);
         this.gui.remove(e);
     }
-
+    @SuppressWarnings("all")
     void dumpData(){
         Double totalBiomass=0.0;
         Integer creatureNumber=0;
         for (int i=0; i< this.entities.size(); i++){
             String type=this.entities.get(i).getClass().getName();
-            if(type.equals("sim.Prey") || type.equals("sim.Predator")){
-                System.out.println(this.entities.get(i).getMass());
+            if(type.equals("sim.Prey")){
                 totalBiomass+=this.entities.get(i).getMass();
                 creatureNumber++;
             }
         }
-        this.scribe.write("Number of creatures: "+creatureNumber.toString()+"\t Total creature mass:"+ totalBiomass.toString()+"\n");
+        this.scribe.write("Number of prey:\t\t "+creatureNumber.toString()+"\t Total prey mass:\t "+ totalBiomass.toString()+"\n");
+        totalBiomass=0.0;
+        creatureNumber=0;
+        for (int i=0; i< this.entities.size(); i++){
+            String type=this.entities.get(i).getClass().getName();
+            if(type.equals("sim.Predator")){
+                totalBiomass+=this.entities.get(i).getMass();
+                creatureNumber++;
+            }
+        }
+        this.scribe.write("Number of predators:\t "+creatureNumber.toString()+"\t Total predator mass:\t "+ totalBiomass.toString()+"\n");
     }
 
     static class Feeder {

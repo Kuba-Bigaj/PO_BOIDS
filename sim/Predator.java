@@ -56,17 +56,18 @@ public class Predator extends Entity {
         return avgDir;
     }
     double eat(){
+
         int i,id=-1;
         double d,minD=fovPrey+1.0,a,b,avgDir=0.0;
         Vector avgPos=new Vector(0,0);
 
-
+        if(this.mass<3){
         for(i=0;i<sim.entities.size();i++) {
             d = Math.sqrt(Math.pow(this.posX - sim.entities.get(i).posX, 2) + Math.pow(this.posY - sim.entities.get(i).posY, 2));
-            if (sim.entities.get(i) != this && d < fovPrey && d<desiredSeparation && sim.entities.get(i).getClass().getName().equals("sim.Prey")) {
-                if(d<minD){
-                    minD=d;
-                    id=i;
+            if (sim.entities.get(i) != this && d < fovPrey  && sim.entities.get(i).getClass().getName().equals("sim.Prey")) {
+                if (d < minD) {
+                    minD = d;
+                    id = i;
                 }
             }
         }
@@ -74,6 +75,7 @@ public class Predator extends Entity {
             if (this.posX - sim.entities.get(id).posX < 1 && this.posY - sim.entities.get(id).posY < 1) {
                 this.mass += sim.entities.get(id).mass;
                 this.sim.entities.get(id).die();
+                System.out.println("Prey slaughtered!");
             }
             else {
                 avgPos.x = sim.entities.get(id).posX;
@@ -91,23 +93,19 @@ public class Predator extends Entity {
                 else if (avgDir < -turnRate)
                     avgDir = -turnRate;
             }
-        }
+        }}
         return avgDir;
 
     }
     void breed(){
-        /*Random rand= new Random(); copy from prey
-        if(this.mass>=2){
-            entities.add(new Predator(this.posX+0.1,this.posY+0.1,1.0,0.1,rand.nextDouble() % 5,rand.nextDouble() % 360,Math.PI/4,20,20.0));
-            mass-=1;
-        }*/
         Random rand = new Random();
         if (this.mass >= 4) {
             this.sim.add(new Predator(this.posX, this.posY, 1.0, this.massDecay, rand.nextDouble() *Math.PI*2, Math.PI / 4,this.fovPrey,this.desiredSeparation,this.sim));
             this.mass -= 1;
         }
     }
-    void Move(){
+    @Override
+    public void move(){
         double sep=separation(),avgDir=0;
         int div=1;
         if(sep!=0)
@@ -119,6 +117,10 @@ public class Predator extends Entity {
         posY+= sin(dir)*vel;
         breed();
         mass-=massDecay;
+        if (this.mass<0){
+            this.die();
+            System.out.println("Predator starved!");
+        }
     }
 
 }

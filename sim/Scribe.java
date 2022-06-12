@@ -11,7 +11,7 @@ import static sim.Simulation.Feeder;
 
 public class Scribe {
     private FileWriter writer;
-
+    @SuppressWarnings("all")
     Scribe() {
         try {
             System.out.println(LocalDate.now());
@@ -56,6 +56,18 @@ public class Scribe {
                             scanLine.nextInt(), //fov Ally
                             scanLine.nextInt(), //fov Enemy
                             scanLine.nextInt(),  //fovFood
+                            scanLine.nextDouble(), //desired Separation
+                            s)); //parent simulation
+                }
+                if (type.equals("Predator")) {
+                    System.out.println("Adding a predator!");
+                    s.add(new Predator(scanLine.nextDouble(), //x
+                            scanLine.nextDouble(), //y
+                            scanLine.nextDouble(), //mass
+                            scanLine.nextDouble(), //mass decay
+                            scanLine.nextDouble(), //dir
+                            scanLine.nextDouble(), //turn rate
+                            scanLine.nextInt(), //fov Prey
                             scanLine.nextDouble(), //desired Separation
                             s)); //parent simulation
                 }

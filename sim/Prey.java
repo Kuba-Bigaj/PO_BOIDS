@@ -106,7 +106,7 @@ public class Prey extends Entity{
         double d, a, b, avgDir = 0.0;
         for (i = 0; i < this.sim.entities.size(); i++) {
             d = Math.sqrt(((this.posX - this.sim.entities.get(i).posX) * (this.posX - this.sim.entities.get(i).posX)) + ((this.posY - this.sim.entities.get(i).posY) * (this.posY - this.sim.entities.get(i).posY)));
-            if (this.sim.entities.get(i) != this && d < fovAlly  && this.sim.entities.get(i).getClass().getName().equals("sim.Prey")) {
+            if (this.sim.entities.get(i) != this && d < this.desiredSeparation  && this.sim.entities.get(i).getClass().getName().equals("sim.Prey")) {
                 diff.x = posX - this.sim.entities.get(i).posX;
                 diff.y = posY - this.sim.entities.get(i).posY;
                 diff.x /= d;
@@ -259,13 +259,13 @@ public class Prey extends Entity{
         if(cohDiv!=0)
             div++;
         if(sepDiv!=0)
-            div++;
+            div+=100;
         if(runDiv!=0)
             div++;
         if(eatDiv!=0)
             div+=hunger;
         if(div>0) {
-            avgDir = algnDiv + cohDiv + sepDiv + hunger * eatDiv + runDiv;
+            avgDir = algnDiv + cohDiv +100* sepDiv + hunger * eatDiv + runDiv;
             avgDir /= div;
             dir += avgDir;
         }
@@ -275,6 +275,7 @@ public class Prey extends Entity{
         mass -= massDecay;
         if (mass<0){
             this.die();
+            System.out.println("Prey starved!");
         }
     }
 
