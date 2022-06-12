@@ -17,6 +17,38 @@ public class Predator extends Entity {
         this.fovPrey=fovPrey;
         this.desiredSeparation=desiredSeparation;
     }
+    double cohesion() {
+        int i, total = 0;
+        double a, b, d, avgDir = 0.0;
+        Vector avgPos = new Vector(0, 0);
+        for (i = 0; i < this.sim.entities.size(); i++) {
+            d = Math.sqrt(((this.posX - this.sim.entities.get(i).posX) * (this.posX - this.sim.entities.get(i).posX)) + ((this.posY - this.sim.entities.get(i).posY) * (this.posY - this.sim.entities.get(i).posY)));
+            if (this.sim.entities.get(i) != this && d < fovPrey && this.sim.entities.get(i).getClass().getName().equals("sim.Prey")) {
+                avgPos.x += this.sim.entities.get(i).posX;
+                avgPos.y += this.sim.entities.get(i).posY;
+                total++;
+            }
+        }
+        if (total > 0) {
+            avgPos.x /= total;
+            avgPos.y /= total;
+            a = avgPos.x - this.posX;
+            b = avgPos.y - this.posY;
+            if (a > 0)
+                avgDir = atan(b/a);
+            else if(a<0)
+                avgDir=atan((b/a))+Math.PI;
+            avgDir-=dir;
+
+            if(avgDir>turnRate)
+                avgDir=turnRate;
+            else if(avgDir<-turnRate)
+                avgDir = -turnRate;
+
+        }
+        return avgDir;
+
+    }
     double separation() {
         Vector avgPos = new Vector(0, 0);
         Vector diff = new Vector(0, 0);
@@ -106,13 +138,23 @@ public class Predator extends Entity {
     }
     @Override
     public void move(){
-        double sep=separation(),avgDir=0;
-        int div=1;
+        double coh=cohesion(),sep=separation(),avgDir,hunger=1+(5/mass),et=eat();
+        int div=0;
         if(sep!=0)
             div++;
-        avgDir+=eat()+sep;
-        avgDir/=div;
-        dir+=avgDir;
+        if(coh!=0)
+            div++;
+        if(et!=0)
+            div+=hunger;
+        if(div>0) {
+            if(et!=0)
+                avgDir = et;
+            else {
+                avgDir =sep + coh;
+                avgDir/=div;
+            }
+            dir += avgDir;
+        }
         posX+= cos(dir)*vel;
         posY+= sin(dir)*vel;
         breed();
