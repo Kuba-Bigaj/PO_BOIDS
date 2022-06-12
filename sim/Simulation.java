@@ -74,7 +74,7 @@ public class Simulation {
     }
 
     private void guiInit(boolean isFullscreen, int imgSize) {
-        this.gui = new GUI(this.entities, imgSize, isFullscreen, this.isPaused, this.scribe);
+        this.gui = new GUI(imgSize, isFullscreen, this.isPaused, this.scribe);
     }
 
     void add(Entity e) {

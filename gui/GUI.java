@@ -30,17 +30,22 @@ public class GUI {
     /**
      * Constructor designed to work with the Simulation class.
      *
-     * @param toDraw       Initial list of entities to draw. Due to the implementation, changes in the list passed will not be reflected in the GUI class. See: {@link #add(GUIable) add} method.
      * @param imageSize    Size of the image to draw in pixels.
      * @param isFullscreen Whether the image should be fullscreen
      * @param isPaused     Reference to a control variable inside implementing class. Should call the {@link #pause() pause} method upon turning true.
      */
-    public GUI(ArrayList<Entity> toDraw, int imageSize, boolean isFullscreen, Boolean[] isPaused, Scribe scr) {
-        this.toDraw.addAll(toDraw);
-        this.imageSize = imageSize;
+    public GUI(int imageSize, boolean isFullscreen, Boolean[] isPaused, Scribe scr) {
+        if (isFullscreen) {
+            window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            window.setUndecorated(true);
+            this.imageSize= (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        } else {
+            this.imageSize = imageSize;
+            window.pack();
+        }
         this.isPaused = isPaused;
         this.scribe = scr;
-        BufferedImage i = new BufferedImage(imageSize, imageSize, BufferedImage.TYPE_INT_RGB);
+        BufferedImage i = new BufferedImage(this.imageSize, this.imageSize, BufferedImage.TYPE_INT_RGB);
         this.image = new JLabel(new ImageIcon(i));
         this.pen = i.createGraphics();
         pen.setPaint(Color.RED);
@@ -56,12 +61,7 @@ public class GUI {
                 System.exit(0);
             }
         });
-        if (isFullscreen) {
-            window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            window.setUndecorated(true);
-        } else {
-            window.pack();
-        }
+
         window.setVisible(true);
     }
 
