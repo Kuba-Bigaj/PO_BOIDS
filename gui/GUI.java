@@ -91,7 +91,11 @@ public class GUI {
         toDraw.forEach((e) -> e.draw(pen));
         image.repaint();
     }
-
+    /**
+     * Method responsible for removing objects from drawing list.
+     *
+     * @param object Object to be removed.
+     */
     public void remove(GUIable object) {
         this.toDraw.remove(object);
     }

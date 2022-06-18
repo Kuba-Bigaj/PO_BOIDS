@@ -9,9 +9,16 @@ import java.util.Scanner;
 
 import static sim.Simulation.Feeder;
 
+
+/**
+ * Class responsible for handling data input / output.
+ */
 public class Scribe {
     private FileWriter writer;
     @SuppressWarnings("all")
+    /**
+     * Default constructor
+     */
     Scribe() {
         try {
             System.out.println(LocalDate.now());
@@ -25,6 +32,11 @@ public class Scribe {
             System.exit(1);
         }
     }
+
+    /**
+     * Method used to write data to a file
+     * @param s Data to be written. Not formatted behind the scenes.
+     */
     public void write(String s) {
         try {
             writer.write(s);
@@ -33,6 +45,11 @@ public class Scribe {
         }
     }
 
+    /**
+     * Method used for data input. Creates and returns a new Simulation using data from the specified file.
+     * @param source File from which the data is gathered. For syntax see attached configTemplate.txt
+     * @return Created {@link sim.Simulation Simulation}
+     */
     public Simulation simInit(String source) {
         Simulation s = null;
         try {
@@ -82,6 +99,9 @@ public class Scribe {
         return s;
     }
 
+    /**
+     * Method which closes the data output file.
+     */
     public void fin() {
         try {
             writer.close();

@@ -1,0 +1,9 @@
+isFullscreen timescale imageSize
+
+foodSpawningOriginX foodSpawningOriginY foodSpawningRange foodAmount
+
+[prey]
+creatureType coordX coordY startingMass massDecay startingDirection turnRate allyFov enemyFov foodFov desiredSeparation
+
+[preadator]
+creatureType coordX coordY startingMass massDecay startingDirection turnRate foodFov desiredSeparation
