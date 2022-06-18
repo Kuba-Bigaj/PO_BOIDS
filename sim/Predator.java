@@ -7,8 +7,8 @@ import static java.lang.Math.*;
 
 public class Predator extends Entity {
 
-    protected Integer fovPrey;
-    protected Double desiredSeparation;
+    private final Integer fovPrey;
+    private final Double desiredSeparation;
     Predator(Double posX, Double posY, Double mass, Double massDecay,Double dir,Double turnRate,Integer fovPrey,Double desiredSeparation, Simulation sim){
         super(posX,posY,mass,massDecay, sim);
         this.vel=5.0;

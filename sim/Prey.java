@@ -11,10 +11,10 @@ import static java.lang.Math.*;
  * @author Paweł Cyganiuk
  */
 public class Prey extends Entity {
-	protected Integer fovAlly;
-	protected Integer fovEnemy;
-	protected Integer fovFood;
-	protected Double desiredSeparation;
+	private final Integer fovAlly;
+	private final Integer fovEnemy;
+	private final Integer fovFood;
+	private final Double desiredSeparation;
 
 	/**
 	 * constructor Prey extends Entity

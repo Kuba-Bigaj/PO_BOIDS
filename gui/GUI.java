@@ -1,6 +1,5 @@
 package gui;
 
-import sim.Entity;
 import sim.Scribe;
 
 import javax.swing.*;
