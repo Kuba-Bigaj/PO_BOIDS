@@ -4,11 +4,18 @@ package sim;
 import java.util.Random;
 
 import static java.lang.Math.*;
-
+/**
+ * This class is responsible for simulating the behavior of Predator objects.
+ *
+ * @author Paweł Cyganiuk
+ */
 public class Predator extends Entity {
 
     private final Integer fovPrey;
     private final Double desiredSeparation;
+    /**
+     * constructor Predator extends Entity
+     */
     Predator(Double posX, Double posY, Double mass, Double massDecay,Double dir,Double turnRate,Integer fovPrey,Double desiredSeparation, Simulation sim){
         super(posX,posY,mass,massDecay, sim);
         this.vel=5.0;
@@ -17,6 +24,9 @@ public class Predator extends Entity {
         this.fovPrey=fovPrey;
         this.desiredSeparation=desiredSeparation;
     }
+    /**
+     * Method Cohesion is used to steer entities towards average location of the group
+     */
     private double cohesion() {
         int i, total = 0;
         double a, b, d, avgDir = 0.0;
@@ -49,6 +59,9 @@ public class Predator extends Entity {
         return avgDir;
 
     }
+    /**
+     * Method Separation is used to steer entities to the opposite direction than the average location of the group to avoid crowding
+     */
     private double separation() {
         Vector avgPos = new Vector(0, 0);
         Vector diff = new Vector(0, 0);
@@ -87,6 +100,9 @@ public class Predator extends Entity {
 
         return avgDir;
     }
+    /**
+     * Method Eat is used to navigate objects towards Prey objects
+     */
     private double eat(){
 
         int i,id=-1;
@@ -129,6 +145,9 @@ public class Predator extends Entity {
         return avgDir;
 
     }
+    /**
+     * Method Breed is used to add new objects based on their current mass
+     */
     private void breed(){
         Random rand = new Random();
         if (this.mass >= 4) {
@@ -136,6 +155,9 @@ public class Predator extends Entity {
             this.mass -= 1;
         }
     }
+    /**
+     * Method Move is used to add all movements of the object and turn it into one vector
+     */
     @Override
     public void move(){
         double coh=cohesion(),sep=separation(),avgDir,hunger=1+(5/mass),et=eat();
