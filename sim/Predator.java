@@ -15,6 +15,16 @@ public class Predator extends Entity {
     private final Double desiredSeparation;
     /**
      * constructor Predator extends Entity
+     *
+     * @param posX Value of X coordinate
+     * @param posY Value of Y coordinate
+     * @param mass Value of mass that impacts breeding and dying
+     * @param massDecay value of mass lost per iteration
+     * @param dir dirction of movement in radians
+     * @param turnRate maximum possible change of direction
+     * @param fovPrey range of sight for Prey objects
+     * @param desiredSeparation minimum range between Prey objects that they want to keep
+     * @param sim simulation
      */
     Predator(Double posX, Double posY, Double mass, Double massDecay,Double dir,Double turnRate,Integer fovPrey,Double desiredSeparation, Simulation sim){
         super(posX,posY,mass,massDecay, sim);
