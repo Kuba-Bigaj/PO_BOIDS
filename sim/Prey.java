@@ -101,7 +101,7 @@ public class Prey extends Entity {
 	}
 
 	/**
-	 * Method Breed is used to add new objects based on the amount of food they ate
+	 * Method Breed is used to add new objects based on their current mass
 	 */
 	void breed() {
 		Random rand = new Random();
