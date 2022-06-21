@@ -32,6 +32,7 @@ public class GUI {
      * @param imageSize    Size of the image to draw in pixels.
      * @param isFullscreen Whether the image should be fullscreen
      * @param isPaused     Reference to a control variable inside implementing class. Should call the {@link #pause() pause} method upon turning true.
+     * @param scr          Scribe object used by the Simulation
      */
     public GUI(int imageSize, boolean isFullscreen, Boolean[] isPaused, Scribe scr) {
         if (isFullscreen) {

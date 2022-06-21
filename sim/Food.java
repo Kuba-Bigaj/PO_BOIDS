@@ -2,6 +2,9 @@ package sim;
 
 import java.awt.*;
 
+/**
+ * Simple class acting as food for {@link sim.Prey Prey} agents
+ */
 public class Food extends Entity {
     Food(Double posX, Double posY, Double mass, Double massDecay, Simulation sim) {
         super(posX, posY, mass, massDecay,sim);

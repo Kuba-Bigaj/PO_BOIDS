@@ -4,6 +4,9 @@ import gui.GUIable;
 
 import java.awt.*;
 
+/**
+ * Basis for all agents in the Simulation
+ */
 public abstract class Entity implements GUIable {
     protected Double posX, posY, vel = 0.00, dir = 0.00, turnRate = 0.00, mass, massDecay;
     protected Simulation sim;
