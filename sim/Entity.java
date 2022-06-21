@@ -3,14 +3,20 @@ package sim;
 import gui.GUIable;
 
 import java.awt.*;
-
 /**
- * Basis for all agents in the Simulation
+ * This abstract class contains Entity constructor
  */
 public abstract class Entity implements GUIable {
     protected Double posX, posY, vel = 0.00, dir = 0.00, turnRate = 0.00, mass, massDecay;
     protected Simulation sim;
-
+/**
+     *
+     * @param posX Value of X coordinate
+     * @param posY Value of Y coordinate
+     * @param mass Value of mass that impacts breeding and dying
+     * @param massDecay
+     * @param sim simulation
+     */
     Entity(Double posX, Double posY, Double mass, Double massDecay, Simulation sim) {
         this.posX = posX;
         this.posY = posY;

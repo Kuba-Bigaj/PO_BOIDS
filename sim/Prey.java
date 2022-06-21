@@ -18,6 +18,18 @@ public class Prey extends Entity {
 
 	/**
 	 * constructor Prey extends Entity
+	 *
+	 * @param posX Value of X coordinate
+	 * @param posY Value of Y coordinate
+	 * @param mass Value of mass that impacts breeding and dying
+	 * @param massDecay value of mass lost per iteration
+	 * @param dir dirction of movement in radians
+	 * @param turnRate maximum possible change of direction
+	 * @param fovAlly range of sight for other Prey objects
+	 * @param fovEnemy range of sight for Predator objects
+	 * @param fovFood range of sight for Food objects
+	 * @param desiredSeparation minimum range between Prey objects that they want to keep
+	 * @param sim simulation
 	 */
 	Prey(Double posX, Double posY, Double mass, Double massDecay, Double dir, Double turnRate, Integer fovAlly, Integer fovEnemy, Integer fovFood, Double desiredSeparation, Simulation sim) {
 		super(posX, posY, mass, massDecay, sim);
